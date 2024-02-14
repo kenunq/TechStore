@@ -1,0 +1,186 @@
+[
+
+  {
+    "model": "goods.category",
+    "pk": 1,
+    "fields": {
+      "name": "Кофемашины",
+      "description": "Товары для приготовления кофе и не только."
+    }
+  },
+  {
+    "model": "goods.product",
+    "pk": 1,
+    "fields": {
+      "name": "Кофемашина Thomson CF20M01",
+      "description": "Кофемашина Thomson CF20M01 предназначена для кофе в зернах, которые перемалываются и предварительно замачиваются для лучшего раскрытия вкусовых качеств. Степень помола регулируется. Модель с максимальной мощностью 1470 Вт поддерживает давление в 19 бар, позволяя готовить лунго и эспрессо. Ручной вспениватель молока поможет создать нежную пенку для капучино. Емкости резервуара 1,2 л достаточно для нескольких порций.\r\n\r\nВыполненная в корпусе из металла и пластика модель рассчитана на чашки высотой до 15 см, которые для удобства подсвечиваются. Облегчает управление кофемашиной сенсорная панель с индикацией отсутствия воды, заполнения резервуара для капель и необходимости проведения автоматической очистки. В режиме энергосбережения устройство существенно экономит затраты ресурсов.",
+      "price": "21999.00",
+      "old_price": "29999.00",
+      "category": 1,
+      "brand": "Thomson",
+      "available_quantity": 15,
+      "is_published": true,
+      "created_at": "2024-02-13T20:24:56.176Z",
+      "updated_at": "2024-02-13T20:24:56.176Z"
+    }
+  },
+  {
+    "model": "goods.productimage",
+    "pk": 1,
+    "fields": {
+      "product": 1,
+      "image": "products/images/600014573918b0.webp"
+    }
+  },
+  {
+    "model": "goods.productimage",
+    "pk": 2,
+    "fields": {
+      "product": 1,
+      "image": "products/images/600014573918b1.webp"
+    }
+  },
+  {
+    "model": "goods.productimage",
+    "pk": 3,
+    "fields": {
+      "product": 1,
+      "image": "products/images/600014573918b2.webp"
+    }
+  },
+  {
+    "model": "goods.productimage",
+    "pk": 4,
+    "fields": {
+      "product": 1,
+      "image": "products/images/600014573918b2_rivheQg.webp"
+    }
+  },
+  {
+    "model": "goods.productimage",
+    "pk": 5,
+    "fields": {
+      "product": 1,
+      "image": "products/images/600014573918b4.webp"
+    }
+  },
+  {
+    "model": "goods.feature",
+    "pk": 1,
+    "fields": {
+      "name": "Гарантия",
+      "description": "Гарантия на случай выхода техники из строя"
+    }
+  },
+  {
+    "model": "goods.feature",
+    "pk": 2,
+    "fields": {
+      "name": "Тип используемого кофе",
+      "description": ""
+    }
+  },
+  {
+    "model": "goods.feature",
+    "pk": 3,
+    "fields": {
+      "name": "Максимальное давление",
+      "description": ""
+    }
+  },
+  {
+    "model": "goods.feature",
+    "pk": 4,
+    "fields": {
+      "name": "Тип управления",
+      "description": ""
+    }
+  },
+  {
+    "model": "goods.feature",
+    "pk": 5,
+    "fields": {
+      "name": "Встроенная кофемолка",
+      "description": ""
+    }
+  },
+  {
+    "model": "goods.feature",
+    "pk": 6,
+    "fields": {
+      "name": "Приготовление напитка",
+      "description": ""
+    }
+  },
+  {
+    "model": "goods.feature",
+    "pk": 7,
+    "fields": {
+      "name": "Страна",
+      "description": ""
+    }
+  },
+  {
+    "model": "goods.productfeature",
+    "pk": 1,
+    "fields": {
+      "product": 1,
+      "feature": 1,
+      "value": "2 года"
+    }
+  },
+  {
+    "model": "goods.productfeature",
+    "pk": 2,
+    "fields": {
+      "product": 1,
+      "feature": 2,
+      "value": "в зернах"
+    }
+  },
+  {
+    "model": "goods.productfeature",
+    "pk": 3,
+    "fields": {
+      "product": 1,
+      "feature": 3,
+      "value": "19 Бар"
+    }
+  },
+  {
+    "model": "goods.productfeature",
+    "pk": 4,
+    "fields": {
+      "product": 1,
+      "feature": 4,
+      "value": "сенсорный"
+    }
+  },
+  {
+    "model": "goods.productfeature",
+    "pk": 5,
+    "fields": {
+      "product": 1,
+      "feature": 5,
+      "value": "Да"
+    }
+  },
+  {
+    "model": "goods.productfeature",
+    "pk": 6,
+    "fields": {
+      "product": 1,
+      "feature": 6,
+      "value": "лунго, эспрессо"
+    }
+  },
+  {
+    "model": "goods.productfeature",
+    "pk": 7,
+    "fields": {
+      "product": 1,
+      "feature": 7,
+      "value": "Китай"
+    }
+  }
+]
