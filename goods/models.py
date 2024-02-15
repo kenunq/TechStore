@@ -43,6 +43,7 @@ class Feature(models.Model):
     def __str__(self):
         return self.name
 
+
 class ProductFeature(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     feature = models.ForeignKey(Feature, on_delete=models.CASCADE)
