@@ -17,7 +17,7 @@ class Product(models.Model):
     description = models.TextField('Описание товара')
     price = models.DecimalField(max_digits=10, decimal_places=2, default=0, verbose_name='Цена товара')
     old_price = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True, verbose_name='Устаревшая цена товара')
-    category = models.ForeignKey(Category, on_delete=models.CASCADE, verbose_name='Категория')
+    category = models.ForeignKey(Category, on_delete=models.CASCADE,  related_name='a_category', verbose_name='Категория')
     brand = models.CharField(max_length=100, verbose_name='Бренд')
     available_quantity = models.PositiveIntegerField(default=0, verbose_name='Количество товара на складе')
     features = models.ManyToManyField('Feature', through='ProductFeature', verbose_name='Характеристики')

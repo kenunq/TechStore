@@ -1,10 +1,12 @@
+from django.db.models import Count
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import mixins, viewsets, filters
 from rest_framework.pagination import PageNumberPagination
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
-from goods.models import Product
-from goods.serializers import ProductSerializer
+from goods.models import Product, Category
+from goods.serializers import ProductSerializer, CategorySerializer
 from goods.services import ProductFilter
 
 
@@ -36,3 +38,9 @@ class ProductListViewSet(mixins.ListModelMixin, mixins.RetrieveModelMixin, views
     filterset_class = ProductFilter
     search_fields = ['name', 'description']
     ordering_fields = ['price', 'created_at']
+
+
+class CategoryViewSet(mixins.ListModelMixin, mixins.RetrieveModelMixin, viewsets.GenericViewSet):
+    # Выводим категории, которые используются
+    queryset = Category.objects.annotate(one=Count('a_category')).filter(one__gt=0)
+    serializer_class = CategorySerializer
