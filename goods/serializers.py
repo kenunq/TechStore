@@ -24,7 +24,7 @@ class ProductFeatureSerializer(serializers.ModelSerializer):
 
 
 class ProductSerializer(serializers.ModelSerializer):
-    category = CategorySerializer()
+    category = serializers.ReadOnlyField(source='category.name')
     images = ProductImagesSerializer(many=True)
     features = serializers.SerializerMethodField('get_features')
 

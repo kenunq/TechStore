@@ -1,5 +1,7 @@
 from django.db import models
 
+from user.models import User
+
 
 # Create your models here.
 
@@ -51,3 +53,25 @@ class ProductFeature(models.Model):
 
     def __str__(self):
         return f"{self.product.name} - {self.feature.name}: {self.value}"
+
+
+class BasketQuerySet(models.QuerySet):
+    def total_sum(self):
+        return sum(basket.sum() for basket in self)
+
+    def total_quantity(self):
+        return sum(basket.quantity for basket in self)
+
+
+class Basket(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Покупатель')
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, verbose_name='Товар')
+    quantity = models.IntegerField(default=1, verbose_name='Количество')
+
+    objects = BasketQuerySet.as_manager()
+
+    def sum(self):
+        return self.product.price * self.quantity
+
+    def __str__(self):
+        return f'Корзина {self.user}'
