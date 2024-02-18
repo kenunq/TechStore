@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from goods.models import ProductFeature, Product, Feature, ProductImage, Category
+from goods.models import ProductFeature, Product, Feature, ProductImage, Category, Basket
 
 
 # Register your models here.
@@ -33,3 +33,9 @@ class FeatureAdmin(admin.ModelAdmin):
 class CategoryAdmin(admin.ModelAdmin):
     pass
 
+
+@admin.register(Basket)
+class BasketAdmin(admin.ModelAdmin):
+    list_display = ('user', 'product', 'quantity')
+    search_fields = ('product', 'user')
+    list_filter = ('product', )

@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from goods.models import Product, Category, ProductImage, ProductFeature, Feature
+from goods.models import Product, Category, ProductImage, ProductFeature, Feature, Basket
 
 
 class CategorySerializer(serializers.ModelSerializer):
@@ -34,3 +34,14 @@ class ProductSerializer(serializers.ModelSerializer):
     class Meta:
         model = Product
         exclude = ['is_published']
+
+
+class BasketSerializer(serializers.ModelSerializer):
+    product = ProductSerializer()
+    total_sum = serializers.SerializerMethodField('get_total_sum')
+
+    def get_total_sum(self, obj):
+        return obj.product.price * obj.quantity
+    class Meta:
+        model = Basket
+        exclude = ['user']

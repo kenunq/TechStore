@@ -29,6 +29,7 @@ from goods.views import *
 router = DefaultRouter()
 router.register(r'products', ProductListViewSet)
 router.register(r'categorys', CategoryViewSet)
+router.register(r'basket', BasketViewSet, basename='basket')
 
 urlpatterns = [
     path('admin/', admin.site.urls),

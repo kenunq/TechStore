@@ -1,12 +1,14 @@
 from django.db.models import Count
 from django_filters.rest_framework import DjangoFilterBackend
-from rest_framework import mixins, viewsets, filters
+from rest_framework import mixins, viewsets, filters, status
+from rest_framework.decorators import action
 from rest_framework.pagination import PageNumberPagination
-from rest_framework.permissions import IsAuthenticated
+from rest_framework import permissions
 from rest_framework.response import Response
 
-from goods.models import Product, Category
-from goods.serializers import ProductSerializer, CategorySerializer
+from goods.models import Product, Category, Basket
+from goods.permission import IsOwner
+from goods.serializers import ProductSerializer, CategorySerializer, BasketSerializer
 from goods.services import ProductFilter
 
 
@@ -39,8 +41,40 @@ class ProductListViewSet(mixins.ListModelMixin, mixins.RetrieveModelMixin, views
     search_fields = ['name', 'description']
     ordering_fields = ['price', 'created_at']
 
+    @action(detail=True, permission_classes=[permissions.IsAuthenticated], url_path='add-to-basket')
+    def add_to_basket(self, request, *args, **kwargs):
+        product = self.get_object()
+        user = self.request.user
+        quantity = self.request.query_params.get('quantity', 1)
+        basket = Basket.objects.create(user=user, product=product, quantity=quantity)
+        return Response({'status': 'product add to basket'})
+
 
 class CategoryViewSet(mixins.ListModelMixin, mixins.RetrieveModelMixin, viewsets.GenericViewSet):
     # Выводим категории, которые используются
     queryset = Category.objects.annotate(one=Count('a_category')).filter(one__gt=0)
     serializer_class = CategorySerializer
+
+
+class BasketViewSet(mixins.ListModelMixin, mixins.DestroyModelMixin, mixins.UpdateModelMixin, viewsets.GenericViewSet):
+    serializer_class = BasketSerializer
+    permission_classes = [permissions.IsAuthenticated, IsOwner]
+
+    def get_queryset(self):
+        return Basket.objects.filter(user=self.request.user)
+
+    def list(self, request, *args, **kwargs):
+        queryset = self.get_queryset()
+        total_sum = queryset.total_sum()
+        data = {
+            'total_sum': total_sum,
+            'baskets': self.serializer_class(queryset, many=True).data
+        }
+
+        return Response(data)
+
+    def destroy(self, request, *args, **kwargs):
+        instance = self.get_object()
+        self.perform_destroy(instance)
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
