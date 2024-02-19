@@ -44,6 +44,8 @@ INSTALLED_APPS = [
     'django_filters',
     'corsheaders',
     'djoser',
+    'drf_yasg',
+    'drf_spectacular',
     # 'rest_framework_simplejwt',
 
     'goods',
@@ -165,7 +167,8 @@ REST_FRAMEWORK = {
         'rest_framework_simplejwt.authentication.JWTAuthentication',
         'rest_framework.authentication.BasicAuthentication',
         'rest_framework.authentication.SessionAuthentication',
-    ]
+    ],
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
 }
 
 # CORS
@@ -233,4 +236,20 @@ DJOSER = {
     'PASSWORD_CHANGED_EMAIL_CONFIRMATION': False,  # Default
     'USERNAME_CHANGED_EMAIL_CONFIRMATION': False,  # Default
     'LOGOUT_ON_PASSWORD_CHANGE': False,  # Default
+    'SERIALIZERS': {
+        "user_create": "user.serializer.UserRegistrationSerializer",  # custom serializer
+        "user": "user.serializer.UserMeSetializer",  # custom serializer
+        "current_user": "user.serializer.UserMeSetializer",  # custom serializer
+        "user_delete": "user.serializer.UserMeSetializer",  # custom serializer
+    },
+}
+
+#  spectacular
+
+SPECTACULAR_SETTINGS = {
+    'TITLE': 'TechStore API',
+    'DESCRIPTION': 'test desc',
+    'VERSION': '1.0.0',
+    'SERVE_INCLUDE_SCHEMA': False,
+    # OTHER SETTINGS
 }

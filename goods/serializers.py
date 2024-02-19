@@ -23,7 +23,7 @@ class ProductFeatureSerializer(serializers.ModelSerializer):
         fields = ['feature', 'value']
 
 
-class ProductSerializer(serializers.ModelSerializer):
+class ProductSerializer(serializers.HyperlinkedModelSerializer):
     category = serializers.ReadOnlyField(source='category.name')
     images = ProductImagesSerializer(many=True)
     features = serializers.SerializerMethodField('get_features')
@@ -36,7 +36,7 @@ class ProductSerializer(serializers.ModelSerializer):
         exclude = ['is_published']
 
 
-class BasketSerializer(serializers.ModelSerializer):
+class BasketSerializer(serializers.HyperlinkedModelSerializer):
     product = ProductSerializer()
     total_sum = serializers.SerializerMethodField('get_total_sum')
 
