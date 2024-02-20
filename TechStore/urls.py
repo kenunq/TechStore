@@ -25,6 +25,7 @@ from rest_framework import routers
 from rest_framework.routers import DefaultRouter
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView, TokenVerifyView
 
+from Orders.views import OrderListViewSet, UserInfoViewSet
 from goods.views import *
 from .yasg import urlpatterns as doc_urls
 
@@ -32,6 +33,8 @@ router = DefaultRouter()
 router.register(r'products', ProductListViewSet)
 router.register(r'categorys', CategoryViewSet)
 router.register(r'basket', BasketViewSet, basename='basket')
+router.register(r'order', OrderListViewSet, basename='order')
+router.register(r'user-info', UserInfoViewSet, basename='user-info')
 
 urlpatterns = [
     path('admin/', admin.site.urls),

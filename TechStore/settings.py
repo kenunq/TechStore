@@ -248,7 +248,7 @@ DJOSER = {
 
 SPECTACULAR_SETTINGS = {
     'TITLE': 'TechStore API',
-    'DESCRIPTION': 'test desc',
+    'DESCRIPTION': 'Список всех доступных API запросов',
     'VERSION': '1.0.0',
     'SERVE_INCLUDE_SCHEMA': False,
     # OTHER SETTINGS
