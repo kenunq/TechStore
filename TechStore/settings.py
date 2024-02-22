@@ -169,6 +169,7 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.SessionAuthentication',
     ],
     'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
+    'TEST_REQUEST_DEFAULT_FORMAT': 'json'
 }
 
 # CORS
@@ -253,3 +254,21 @@ SPECTACULAR_SETTINGS = {
     'SERVE_INCLUDE_SCHEMA': False,
     # OTHER SETTINGS
 }
+
+#mail
+
+EMAIL_HOST = 'smtp.yandex.ru'
+EMAIL_PORT = 465
+EMAIL_HOST_USER = config('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
+EMAIL_USE_TLS = False
+EMAIL_USE_SSL = True
+SERVER_EMAIL = EMAIL_HOST_USER
+EMAIL_ADMIN = EMAIL_HOST_USER
+
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+ADMINS = [('Admin', EMAIL_HOST_USER)] # Нужно для отправки писем через django.utils.log.AdminEmailHandler https://docs.djangoproject.com/en/3.2/ref/settings/#std-setting-ADMINS
+
+SITE_ID = 1
+
+PARENT_DOMAIN = ALLOWED_HOSTS[0]
