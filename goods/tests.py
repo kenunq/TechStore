@@ -70,4 +70,75 @@ class Test_ProductsAPI(APITestCase):
         self.assertTrue(Basket.objects.filter(user_id=self.user1.id).exists())
 
 
+class Test_BasketAPI(APITestCase):
+
+    @classmethod
+    def setUp(cls):
+        cls.user1_username = cls.user1_password = 'user1'
+        cls.user1_email = 'user1@yandex.ru'
+
+        cls.user1 = User.objects.create_user(cls.user1_username, cls.user1_email, cls.user1_password)
+
+        cls.category1 = Category.objects.create(
+            name="category1",
+            description="desc for category1"
+        )
+
+        cls.product1 = Product.objects.create(
+            name="Product1",
+            description="desc for product1",
+            price=100.20,
+            category=cls.category1,
+            brand="test",
+            available_quantity=10,
+            is_published=True,
+        )
+
+        cls.basket = Basket.objects.create(user=cls.user1, product=cls.product1, quantity=1)
+
+    def test_get_basket(self):
+        response = self.client.post('/auth/jwt/create/', data={
+            'username': self.user1_username,
+            'password':self.user1_password
+        })
+
+        self.assertEquals(response.status_code, 200)
+        token = response.data['access']
+
+        response = self.client.get('/api/v1/basket/', headers={'Authorization': f'JWT {token}'})
+
+        self.assertEquals(response.status_code, 200)
+        self.assertEquals(len(response.data), 2)
+        self.assertEquals(response.data['total_sum'], Basket.objects.filter(user_id=self.user1.id).total_sum())
+
+    def test_destroy_basket(self):
+        response = self.client.post('/auth/jwt/create/', data={
+            'username': self.user1_username,
+            'password':self.user1_password
+        })
+
+        self.assertEquals(response.status_code, 200)
+        token = response.data['access']
+
+        response = self.client.delete(f'/api/v1/basket/{self.basket.id}/', headers={'Authorization': f'JWT {token}'})
+
+        self.assertEquals(response.status_code, 204)
+        self.assertFalse(Basket.objects.filter(user_id=self.user1.id).exists())
+
+    def test_update_basket(self):
+        response = self.client.post('/auth/jwt/create/', data={
+            'username': self.user1_username,
+            'password':self.user1_password
+        })
+
+        self.assertEquals(response.status_code, 200)
+        token = response.data['access']
+
+        response = self.client.patch(f'/api/v1/basket/{self.basket.id}/', data={'quantity': 2}, headers={'Authorization': f'JWT {token}'})
+
+        self.assertEquals(response.status_code, 200)
+        self.assertEquals(response.data['quantity'], 2)
+        self.assertEquals(Basket.objects.get(id=self.basket.id).quantity, 2)
+
+
 

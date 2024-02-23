@@ -24,13 +24,15 @@ class Order(models.Model):
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='Дата создания')
 
     def save(self, force_insert=False, force_update=False, using=None, update_fields=None):
-        if not self.status == Order.objects.get(id=self.id).status:
-            send_mail(f'Статус заказа {self.id} изменился',
-                      f'Статус вашего заказа изменился на {self.status}',
-                      settings.EMAIL_HOST_USER,
-                      [f'{self.user.email}'],
-                      fail_silently=False
-                      )
+        if self.pk is not None:
+            old_order = Order.objects.get(pk=self.pk)
+            if self.status != old_order.status:
+                send_mail(f'Статус заказа {self.id} изменился',
+                          f'Статус вашего заказа изменился на {self.status}',
+                          settings.EMAIL_HOST_USER,
+                          [f'{self.user.email}'],
+                          fail_silently=False
+                          )
         super().save(force_insert=force_insert, force_update=force_update, using=using, update_fields=update_fields)
 
 
