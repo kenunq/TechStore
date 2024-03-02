@@ -1,4 +1,5 @@
 from django.test import TestCase
+from rest_framework.test import APITestCase
 
 from Orders.models import UserInfo, Order
 from goods.models import Basket, Product, Category
@@ -8,7 +9,7 @@ from user.models import User
 # Create your tests here.
 
 
-class OrdersTest(TestCase):
+class OrdersTest(APITestCase):
     @classmethod
     def setUp(cls):
         cls.user1_username = cls.user1_password ='user1'

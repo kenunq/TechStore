@@ -1,4 +1,5 @@
 from django.test import TestCase
+from rest_framework.test import APITestCase
 
 from user.models import User
 
@@ -6,7 +7,7 @@ from user.models import User
 # Create your tests here.
 
 
-class Test_User(TestCase):
+class Test_User(APITestCase):
     @classmethod
     def setUp(cls):
         cls.user1_username = "username_1"
