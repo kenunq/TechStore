@@ -4,6 +4,7 @@ from djoser.serializers import UserSerializer
 
 User = get_user_model()
 
+
 class UserRegistrationSerializer(UserCreateSerializer):
     class Meta(UserCreateSerializer.Meta):
         model = User
@@ -13,4 +14,4 @@ class UserRegistrationSerializer(UserCreateSerializer):
 class UserMeSetializer(UserSerializer):
     class Meta(UserSerializer.Meta):
         model = User
-        fields = ['username', 'name', 'birthday', 'gender', 'email']
+        fields = ["username", "name", "birthday", "gender", "email"]

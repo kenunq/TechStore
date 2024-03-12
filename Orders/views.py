@@ -1,12 +1,11 @@
+# pylint: disable=too-few-public-methods
 from rest_framework.serializers import Serializer
 import simplejson as json
 
 from drf_spectacular.utils import extend_schema
-from rest_framework import mixins, viewsets
-from rest_framework import permissions
-from rest_framework.response import Response
+from rest_framework import mixins, viewsets, permissions
 
-from Orders.models import Order, UserInfo
+from Orders.models import Order
 from Orders.serializer import OrderSerializer, UserInfoSerializer
 from goods.models import Basket
 from goods.serializers import BasketSerializer

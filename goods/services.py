@@ -9,8 +9,9 @@ class CharFilterInFilter(filters.BaseInFilter, filters.CharFilter):
 
 class ProductFilter(filters.FilterSet):
     price = filters.RangeFilter()
-    category = CharFilterInFilter(field_name='category__name', lookup_expr='in')
+    category = CharFilterInFilter(field_name="category__name", lookup_expr="in")
     brand = filters.CharFilter()
+
     class Meta:
         model = Product
-        fields = ['price', 'brand', 'category']
+        fields = ["price", "brand", "category"]

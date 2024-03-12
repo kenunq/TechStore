@@ -11,6 +11,7 @@ class UserInfoSerializer(serializers.ModelSerializer):
 
 class OrderSerializer(serializers.HyperlinkedModelSerializer):
     user_info = UserInfoSerializer()
+
     class Meta:
         model = Order
-        exclude = ['user']
+        exclude = ["user"]
