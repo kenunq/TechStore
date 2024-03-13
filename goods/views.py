@@ -65,7 +65,7 @@ class ProductListViewSet(
         product = self.get_object()
         user = self.request.user
         quantity = self.request.query_params.get("quantity", 1)
-        basket = Basket.objects.create(user=user, product=product, quantity=quantity)
+        Basket.objects.create(user=user, product=product, quantity=quantity)
         return Response({"status": "product add to basket"})
 
 

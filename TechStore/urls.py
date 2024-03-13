@@ -20,49 +20,70 @@ from django.contrib import admin
 from django.template.defaulttags import url
 from django.urls import path, re_path, include
 from django.views.static import serve
-from drf_spectacular.views import SpectacularAPIView, SpectacularSwaggerView, SpectacularRedocView
+from drf_spectacular.views import (
+    SpectacularAPIView,
+    SpectacularSwaggerView,
+    SpectacularRedocView,
+)
 from rest_framework import routers
 from rest_framework.routers import DefaultRouter
-from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView, TokenVerifyView
+from rest_framework_simplejwt.views import (
+    TokenObtainPairView,
+    TokenRefreshView,
+    TokenVerifyView,
+)
 
 from Orders.views import OrderListViewSet, UserInfoViewSet
 from goods.views import *
 from .yasg import urlpatterns as doc_urls
 
 router = DefaultRouter()
-router.register(r'products', ProductListViewSet)
-router.register(r'categorys', CategoryViewSet)
-router.register(r'basket', BasketViewSet, basename='basket')
-router.register(r'order', OrderListViewSet, basename='order')
-router.register(r'user-info', UserInfoViewSet, basename='user-info')
+router.register(r"products", ProductListViewSet)
+router.register(r"categorys", CategoryViewSet)
+router.register(r"basket", BasketViewSet, basename="basket")
+router.register(r"order", OrderListViewSet, basename="order")
+router.register(r"user-info", UserInfoViewSet, basename="user-info")
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('api/v1/', include(router.urls)),
-
+    path("admin/", admin.site.urls),
+    path("api/v1/", include(router.urls)),
     # auth
-    path('auth/', include('djoser.urls')),
-    path('auth/', include('djoser.urls')),
-    path('auth/', include('djoser.urls.jwt')),
-
-    path('api/v1/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
-    path('api/v1/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
-    path('api/v1/token/verify/', TokenVerifyView.as_view(), name='token_verify'),
-
+    path("auth/", include("djoser.urls")),
+    path("auth/", include("djoser.urls")),
+    path("auth/", include("djoser.urls.jwt")),
+    # oauth2
+    re_path("auth/", include("drf_social_oauth2.urls")),
+    path("api/v1/token/", TokenObtainPairView.as_view(), name="token_obtain_pair"),
+    path("api/v1/token/refresh/", TokenRefreshView.as_view(), name="token_refresh"),
+    path("api/v1/token/verify/", TokenVerifyView.as_view(), name="token_verify"),
     #  spectacular
-    path('api/schema/', SpectacularAPIView.as_view(), name='schema'),
-    path('api/schema/swagger-ui/', SpectacularSwaggerView.as_view(url_name='schema'), name='swagger-ui'),
-    path('api/schema/redoc/', SpectacularRedocView.as_view(url_name='schema'), name='redoc'),
+    path("api/schema/", SpectacularAPIView.as_view(), name="schema"),
+    path(
+        "api/schema/swagger-ui/",
+        SpectacularSwaggerView.as_view(url_name="schema"),
+        name="swagger-ui",
+    ),
+    path(
+        "api/schema/redoc/",
+        SpectacularRedocView.as_view(url_name="schema"),
+        name="redoc",
+    ),
 ]
 
 urlpatterns += doc_urls
 
 if settings.DEBUG:
-    urlpatterns += static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 else:
     urlpatterns += [
-       re_path(f'^{settings.MEDIA_URL.lstrip("/")}(?P<path>.*)$',
-            serve, {'document_root': settings.MEDIA_ROOT}),
-        re_path(f'^{settings.STATIC_URL.lstrip("/")}(?P<path>.*)$',
-            serve, {'document_root': settings.STATIC_ROOT}),
+        re_path(
+            f'^{settings.MEDIA_URL.lstrip("/")}(?P<path>.*)$',
+            serve,
+            {"document_root": settings.MEDIA_ROOT},
+        ),
+        re_path(
+            f'^{settings.STATIC_URL.lstrip("/")}(?P<path>.*)$',
+            serve,
+            {"document_root": settings.STATIC_ROOT},
+        ),
     ]
