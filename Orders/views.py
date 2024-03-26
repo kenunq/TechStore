@@ -1,23 +1,19 @@
-# pylint: disable=too-few-public-methods
-from rest_framework.serializers import Serializer
 import simplejson as json
-
 from drf_spectacular.utils import extend_schema
-from rest_framework import mixins, viewsets, permissions
+from rest_framework import mixins, permissions, viewsets
+from rest_framework.serializers import Serializer
 
-from Orders.models import Order
-from Orders.serializer import OrderSerializer, UserInfoSerializer
 from goods.models import Basket
 from goods.serializers import BasketSerializer
+from Orders.models import Order
+from Orders.serializer import OrderSerializer, UserInfoSerializer
 
 
 # Create your views here.
 
 
 @extend_schema(tags=["Order"])
-class OrderListViewSet(
-    mixins.ListModelMixin, mixins.RetrieveModelMixin, viewsets.GenericViewSet
-):
+class OrderListViewSet(mixins.ListModelMixin, mixins.RetrieveModelMixin, viewsets.GenericViewSet):
     serializer_class = OrderSerializer
     permission_classes = [permissions.IsAuthenticated]
     ordering_fields = ["status", "order_price"]
@@ -36,15 +32,12 @@ class UserInfoViewSet(mixins.CreateModelMixin, viewsets.GenericViewSet):
         user = self.request.user
         user_info = serializer.save(user=user)
         basket = Basket.objects.filter(user=user)
-        basket_ser = BasketSerializer(
-            basket, many=True, context={"request": self.request}
-        )
+        basket_ser = BasketSerializer(basket, many=True, context={"request": self.request})
         order_price = basket.total_sum()
         status = 2
 
-        basket_json = json.dumps(
-            basket_ser.data, use_decimal=True, ensure_ascii=False, encoding="utf-8"
-        )
+        basket_json = json.dumps(basket_ser.data, use_decimal=True, ensure_ascii=False, encoding="utf-8")
+
         Order.objects.create(
             user=user,
             user_info=user_info,
