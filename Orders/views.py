@@ -9,9 +9,6 @@ from Orders.models import Order
 from Orders.serializer import OrderSerializer, UserInfoSerializer
 
 
-# Create your views here.
-
-
 @extend_schema(tags=["Order"])
 class OrderListViewSet(mixins.ListModelMixin, mixins.RetrieveModelMixin, viewsets.GenericViewSet):
     serializer_class = OrderSerializer
