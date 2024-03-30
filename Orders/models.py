@@ -29,17 +29,11 @@ class Order(models.Model):
         verbose_name="Информация о доставке",
     )
     basket = models.JSONField(verbose_name="Товары")
-    status = models.CharField(
-        choices=ORDER_STATUS, max_length=10, verbose_name="Статус заказа"
-    )
-    order_price = models.DecimalField(
-        max_digits=10, decimal_places=2, default=0, verbose_name="Сумма заказа"
-    )
+    status = models.CharField(choices=ORDER_STATUS, max_length=10, verbose_name="Статус заказа")
+    order_price = models.DecimalField(max_digits=10, decimal_places=2, default=0, verbose_name="Сумма заказа")
     created_at = models.DateTimeField(auto_now_add=True, verbose_name="Дата создания")
 
-    def save(
-        self, force_insert=False, force_update=False, using=None, update_fields=None
-    ):
+    def save(self, force_insert=False, force_update=False, using=None, update_fields=None):
         if self.pk is not None:
             old_order = Order.objects.get(pk=self.pk)
             if self.status != old_order.status:

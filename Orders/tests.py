@@ -1,7 +1,7 @@
 from rest_framework.test import APITestCase
 
-from Orders.models import UserInfo, Order
-from goods.models import Basket, Product, Category
+from goods.models import Basket, Category, Product
+from Orders.models import Order, UserInfo
 from user.models import User
 
 
@@ -13,13 +13,9 @@ class OrdersTest(APITestCase):
     def setUp(cls):
         cls.user1_username = cls.user1_password = "user1"
 
-        cls.user1 = User.objects.create_user(
-            cls.user1_username, "user1@yandex.ru", cls.user1_password
-        )
+        cls.user1 = User.objects.create_user(cls.user1_username, "user1@yandex.ru", cls.user1_password)
 
-        cls.category1 = Category.objects.create(
-            name="category1", description="desc for category1"
-        )
+        cls.category1 = Category.objects.create(name="category1", description="desc for category1")
 
         cls.product1 = Product.objects.create(
             name="Product1",
@@ -31,9 +27,7 @@ class OrdersTest(APITestCase):
             is_published=True,
         )
 
-        cls.basket = Basket.objects.create(
-            user=cls.user1, product=cls.product1, quantity=3
-        )
+        cls.basket = Basket.objects.create(user=cls.user1, product=cls.product1, quantity=3)
 
         cls.user_info_data = {
             "country": "Russia",
@@ -77,8 +71,6 @@ class OrdersTest(APITestCase):
         )
         self.assertEquals(response.status_code, 201)
 
-        response = self.client.get(
-            "/api/v1/order/", headers={"Authorization": f"JWT {token}"}
-        )
+        response = self.client.get("/api/v1/order/", headers={"Authorization": f"JWT {token}"})
         self.assertEquals(response.status_code, 200)
         self.assertEquals(len(response.data), 1)

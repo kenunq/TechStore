@@ -37,7 +37,6 @@ class UserInfoViewSet(mixins.CreateModelMixin, viewsets.GenericViewSet):
         status = 2
 
         basket_json = json.dumps(basket_ser.data, use_decimal=True, ensure_ascii=False, encoding="utf-8")
-
         Order.objects.create(
             user=user,
             user_info=user_info,

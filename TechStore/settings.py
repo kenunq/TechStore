@@ -283,6 +283,3 @@ ADMINS = [
 SITE_ID = 1
 
 PARENT_DOMAIN = ALLOWED_HOSTS[0]
-
-os.environ["DJANGO_SETTINGS_MODULE"] = "TechStore.settings"
-

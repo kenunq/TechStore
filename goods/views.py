@@ -1,15 +1,14 @@
 from django.db.models import Count
 from django_filters.rest_framework import DjangoFilterBackend
 from drf_spectacular.utils import extend_schema
-from rest_framework import mixins, viewsets, filters, status
+from rest_framework import filters, mixins, permissions, status, viewsets
 from rest_framework.decorators import action
 from rest_framework.pagination import PageNumberPagination
-from rest_framework import permissions
 from rest_framework.response import Response
 
-from goods.models import Product, Category, Basket
+from goods.models import Basket, Category, Product
 from goods.permission import IsOwner
-from goods.serializers import ProductSerializer, CategorySerializer, BasketSerializer
+from goods.serializers import BasketSerializer, CategorySerializer, ProductSerializer
 from goods.services import ProductFilter
 
 
@@ -36,9 +35,7 @@ class ProductPagination(PageNumberPagination):
 
 
 @extend_schema(tags=["Product"])
-class ProductListViewSet(
-    mixins.ListModelMixin, mixins.RetrieveModelMixin, viewsets.GenericViewSet
-):
+class ProductListViewSet(mixins.ListModelMixin, mixins.RetrieveModelMixin, viewsets.GenericViewSet):
     queryset = Product.objects.filter(is_published=True)
     serializer_class = ProductSerializer
     pagination_class = ProductPagination
@@ -70,9 +67,7 @@ class ProductListViewSet(
 
 
 @extend_schema(tags=["category"])
-class CategoryViewSet(
-    mixins.ListModelMixin, mixins.RetrieveModelMixin, viewsets.GenericViewSet
-):
+class CategoryViewSet(mixins.ListModelMixin, mixins.RetrieveModelMixin, viewsets.GenericViewSet):
     # Выводим категории, которые используются
     queryset = Category.objects.annotate(one=Count("a_category")).filter(one__gt=0)
     serializer_class = CategorySerializer
@@ -96,9 +91,7 @@ class BasketViewSet(
         total_sum = queryset.total_sum()
         data = {
             "total_sum": total_sum,
-            "baskets": self.serializer_class(
-                queryset, many=True, context={"request": request}
-            ).data,
+            "baskets": self.serializer_class(queryset, many=True, context={"request": request}).data,
         }
 
         return Response(data)

@@ -1,13 +1,7 @@
 from drf_spectacular.utils import extend_schema_field
 from rest_framework import serializers
 
-from goods.models import (
-    Product,
-    Category,
-    ProductImage,
-    ProductFeature,
-    Basket,
-)
+from goods.models import Basket, Category, Product, ProductFeature, ProductImage
 
 
 class CategorySerializer(serializers.ModelSerializer):
@@ -44,9 +38,7 @@ class ProductSerializer(serializers.HyperlinkedModelSerializer):
         }
     )
     def get_features(self, obj):
-        return ProductFeatureSerializer(
-            ProductFeature.objects.filter(product_id=obj.id), many=True
-        ).data
+        return ProductFeatureSerializer(ProductFeature.objects.filter(product_id=obj.id), many=True).data
 
     class Meta:
         model = Product
