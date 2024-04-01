@@ -17,9 +17,7 @@ class Category(models.Model):
 class Product(models.Model):
     name = models.CharField(max_length=255, verbose_name="Название товара")
     description = models.TextField("Описание товара")
-    price = models.DecimalField(
-        max_digits=10, decimal_places=2, default=0, verbose_name="Цена товара"
-    )
+    price = models.DecimalField(max_digits=10, decimal_places=2, default=0, verbose_name="Цена товара")
     old_price = models.DecimalField(
         max_digits=10,
         decimal_places=2,
@@ -34,12 +32,8 @@ class Product(models.Model):
         verbose_name="Категория",
     )
     brand = models.CharField(max_length=100, verbose_name="Бренд")
-    available_quantity = models.PositiveIntegerField(
-        default=0, verbose_name="Количество товара на складе"
-    )
-    features = models.ManyToManyField(
-        "Feature", through="ProductFeature", verbose_name="Характеристики"
-    )
+    available_quantity = models.PositiveIntegerField(default=0, verbose_name="Количество товара на складе")
+    features = models.ManyToManyField("Feature", through="ProductFeature", verbose_name="Характеристики")
     is_published = models.BooleanField(default=False, verbose_name="Статус публикации")
     created_at = models.DateTimeField(auto_now_add=True, verbose_name="Дата создания")
     updated_at = models.DateTimeField(auto_now=True, verbose_name="Дата обновления")
@@ -49,9 +43,7 @@ class Product(models.Model):
 
 
 class ProductImage(models.Model):
-    product = models.ForeignKey(
-        Product, related_name="images", on_delete=models.CASCADE
-    )
+    product = models.ForeignKey(Product, related_name="images", on_delete=models.CASCADE)
     image = models.ImageField(upload_to="products/images", null=True, blank=True)
 
     def __str__(self):

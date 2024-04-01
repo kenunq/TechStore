@@ -144,6 +144,7 @@ ignore = [
     # https://docs.astral.sh/ruff/rules/#flake8-commas-com
     "COM812", # flake8-commas  (конфликт с `ISC001`)
     "UP005", # assert вместо self.assertEquals
+    "DJ012"
 ]
 # Не давать исправлять эти ошибки в тултипе, и в том числе автоматически при линте через команду
 unfixable = [

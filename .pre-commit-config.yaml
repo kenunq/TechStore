@@ -10,7 +10,7 @@ repos:
     hooks:
       - id: ruff
         name: Проверка кода ruff линтером.
-        args: [--fix, --exit-non-zero-on-fix, --silent]
+        args: [--fix, --quiet]
       - id: ruff-format
         name: Проверка кода ruff форматтером.
 
