@@ -38,7 +38,9 @@ class ProductSerializer(serializers.HyperlinkedModelSerializer):
         }
     )
     def get_features(self, obj):
-        return ProductFeatureSerializer(ProductFeature.objects.filter(product_id=obj.id), many=True).data
+        return ProductFeatureSerializer(
+            ProductFeature.objects.filter(product_id=obj.id).select_related("product", "feature"), many=True
+        ).data
 
     class Meta:
         model = Product

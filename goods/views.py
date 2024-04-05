@@ -12,9 +12,6 @@ from goods.serializers import BasketSerializer, CategorySerializer, ProductSeria
 from goods.services import ProductFilter
 
 
-# Create your views here.
-
-
 class ProductPagination(PageNumberPagination):
     page_size = 1
     page_size_query_param = "page_size"
@@ -36,7 +33,7 @@ class ProductPagination(PageNumberPagination):
 
 @extend_schema(tags=["Product"])
 class ProductListViewSet(mixins.ListModelMixin, mixins.RetrieveModelMixin, viewsets.GenericViewSet):
-    queryset = Product.objects.filter(is_published=True)
+    queryset = Product.objects.filter(is_published=True).select_related("category")
     serializer_class = ProductSerializer
     pagination_class = ProductPagination
     filter_backends = [
@@ -84,7 +81,7 @@ class BasketViewSet(
     permission_classes = [permissions.IsAuthenticated, IsOwner]
 
     def get_queryset(self):
-        return Basket.objects.filter(user=self.request.user)
+        return Basket.objects.filter(user=self.request.user).select_related("user", "product")
 
     def list(self, request, *args, **kwargs):
         queryset = self.get_queryset()
