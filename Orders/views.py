@@ -1,5 +1,4 @@
 import simplejson as json
-from django.test.utils import CaptureQueriesContext
 from drf_spectacular.utils import extend_schema
 from rest_framework import mixins, permissions, viewsets
 from rest_framework.serializers import Serializer
